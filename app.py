@@ -115,21 +115,19 @@ def delete_bill(bill_id):
             return jsonify({"error": "Bill not found"}), 404
         return jsonify({"message": "Bill deleted successfully"}), 200
 
+#Send all data
+@app.route('/bills/data', methods=["GET"])
+def get_bills_data():
+    with sqlite3.connect('/app/data/bills.db') as conn:
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM bills")
+        data = cur.fetchall()
+
+        #Check the response
+        if not data:
+            #response is empty
+            return "There was an error trying to retrieve all bills!", 400
+        return data
 
 
 app.run(debug=True, host="0.0.0.0")
-
-
-
-    
-
-
-
-        
-        
-
-
-
-
-
-
